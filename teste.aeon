@@ -1,0 +1,17 @@
+method = POST
+enpoint = http://localhost:3000/create-pet
+
+
+headers = [
+    channel = dev
+    user = random_user
+]
+
+body = [
+   id = abc123
+   categoria = [
+    id = 123487
+    name = cachorro
+   ]
+   nome = Rex
+]
