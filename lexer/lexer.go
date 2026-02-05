@@ -1,6 +1,9 @@
 package lexer
 
-import "unicode"
+import (
+	"fmt"
+	"unicode"
+)
 
 type lexer struct {
 	source string
@@ -22,6 +25,92 @@ func Tokenize(source string) []Token {
 	}
 
 	return lex.Tokens
+}
+
+func (lex *lexer) scanToken() {
+	ch := lex.peek()
+
+	// skip whitespaces
+	if unicode.IsSpace(rune(ch)) {
+		lex.skipWhitespace()
+		return
+	}
+
+	// comments
+	if ch == '/' && lex.peekNext() == '/' {
+		lex.skipComment()
+		return
+	}
+
+	// string literals
+	if ch == '"' {
+		lex.scanString()
+		return
+	}
+
+	if unicode.IsDigit(rune(ch)) {
+		lex.scanNumber()
+		return
+	}
+
+	// identifier and keywords
+	if unicode.IsLetter(rune(ch)) || ch == '_' {
+		lex.scanIdentifier()
+		return
+	}
+
+	switch ch {
+	case '=', ':':
+		lex.advance()
+		lex.push(newUniqueToken(ASSIGN, "="))
+		return
+	case '[':
+		lex.advance()
+		lex.push(newUniqueToken(OPEN_BRACKET, "["))
+		return
+	case ']':
+		lex.advance()
+		lex.push(newUniqueToken(CLOSE_BRACKET, "]"))
+		return
+	}
+
+	panic(fmt.Sprintf("lexeer error: unexped character '%c' at position %d", ch, lex.pos))
+}
+
+func (lex *lexer) scanString() {
+	start := lex.pos
+	lex.advance()
+
+	for !lex.atEOF() && lex.peek() != '"' {
+		lex.advance()
+	}
+
+	if lex.atEOF() {
+		panic("lexer error: unterminated string literal")
+	}
+
+	lex.advance()
+	value := lex.source[start:lex.pos]
+	lex.push(newUniqueToken(STRING, value))
+}
+
+func (lex *lexer) scanNumber() {
+	start := lex.pos
+	lex.advance()
+
+	for !lex.atEOF() && unicode.IsDigit(rune(lex.peek())) {
+		lex.advance()
+	}
+
+	if !lex.atEOF() && lex.peek() == '.' && unicode.IsDigit(rune(lex.peekNext())) {
+		lex.advance()
+		for !lex.atEOF() && unicode.IsDigit(rune(lex.peekNext())) {
+			lex.advance()
+		}
+	}
+
+	value := lex.source[start:lex.pos]
+	lex.push(newUniqueToken(NUMBER, value))
 }
 
 func (lex *lexer) scanIdentifier() {

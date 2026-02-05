@@ -7,6 +7,8 @@ type TokenKind int
 const (
 	EOF TokenKind = iota
 	IDENTIFIER
+	STRING
+	NUMBER
 
 	OPEN_BRACKET
 	CLOSE_BRACKET
@@ -15,8 +17,9 @@ const (
 	METHOD
 	BODY
 	HEADERS
+	POST
 
-	// =
+	// = or :
 	ASSIGN
 )
 
@@ -24,7 +27,7 @@ var reservedWords map[string]TokenKind = map[string]TokenKind{
 	"method":  METHOD,
 	"body":    BODY,
 	"headers": HEADERS,
-	"assign":  ASSIGN,
+	"post":    POST,
 }
 
 type Token struct {
@@ -46,10 +49,16 @@ func TokenKindString(kind TokenKind) string {
 		return "body"
 	case HEADERS:
 		return "headers"
+	case STRING:
+		return "string"
+	case NUMBER:
+		return "number"
 	case IDENTIFIER:
 		return "identifier"
 	case ASSIGN:
 		return "assign"
+	case POST:
+		return "post"
 	default:
 		return fmt.Sprintf("unknown token: %d", kind)
 	}

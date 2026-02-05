@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
+	"client_http/lexer"
 	"os"
-	"strings"
+
+	"github.com/sanity-io/litter"
 )
 
 func main() {
@@ -12,9 +13,6 @@ func main() {
 		panic(err.Error())
 	}
 
-	formattedData := strings.Fields(string(data))
-
-	for i := range formattedData {
-		fmt.Println(formattedData[i])
-	}
+	tokens := lexer.Tokenize(string(data))
+	litter.Dump(tokens)
 }
