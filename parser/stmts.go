@@ -12,7 +12,19 @@ func parseStmt(p *parser) ast.Stmt {
 	}
 
 	expression := parseExpr(p, default_bp)
-	return ast.ExpressionStmt{Expression: expression}
+	return ast.ExpressionStmt{
+		Expression: expression,
+	}
+}
+
+func parseMethodStmt(p *parser) ast.Stmt {
+	p.expect(lexer.METHOD)
+	p.expect(lexer.ASSIGN)
+
+	val := parseExpr(p, default_bp)
+	return ast.MethodStmt{
+		Value: val,
+	}
 }
 
 func parseBlockStmt(p *parser) ast.Stmt {

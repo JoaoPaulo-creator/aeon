@@ -24,6 +24,8 @@ func Tokenize(source string) []Token {
 		lex.scanToken()
 	}
 
+	lex.Tokens = append(lex.Tokens, newUniqueToken(EOF, " "))
+
 	return lex.Tokens
 }
 
