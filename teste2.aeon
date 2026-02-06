@@ -1,0 +1,5 @@
+headers [
+    channel:  dev
+    user:  random_user
+    content-type: "application/json"
+]

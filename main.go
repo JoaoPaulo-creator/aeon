@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	data, err := os.ReadFile("./teste.aeon")
+	data, err := os.ReadFile("./teste2.aeon")
 	if err != nil {
 		panic(err.Error())
 	}

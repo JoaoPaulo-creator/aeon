@@ -18,6 +18,8 @@ const (
 	BODY
 	HEADERS
 	POST
+	GET
+	PUT
 
 	// = or :
 	ASSIGN
@@ -28,6 +30,8 @@ var reservedWords map[string]TokenKind = map[string]TokenKind{
 	"body":    BODY,
 	"headers": HEADERS,
 	"post":    POST,
+	"get":     GET,
+	"put":     PUT,
 }
 
 type Token struct {
@@ -59,6 +63,10 @@ func TokenKindString(kind TokenKind) string {
 		return "assign"
 	case POST:
 		return "post"
+	case GET:
+		return "get"
+	case PUT:
+		return "put"
 	default:
 		return fmt.Sprintf("unknown token: %d", kind)
 	}

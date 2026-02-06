@@ -37,7 +37,7 @@ func (lex *lexer) scanToken() {
 	}
 
 	// comments
-	if ch == '/' && lex.peekNext() == '/' {
+	if ch == '/' && lex.peek() == '/' {
 		lex.skipComment()
 		return
 	}
@@ -54,7 +54,7 @@ func (lex *lexer) scanToken() {
 	}
 
 	// identifier and keywords
-	if unicode.IsLetter(rune(ch)) || ch == '_' {
+	if unicode.IsLetter(rune(ch)) || ch == '_' || ch == '-' {
 		lex.scanIdentifier()
 		return
 	}
@@ -72,9 +72,15 @@ func (lex *lexer) scanToken() {
 		lex.advance()
 		lex.push(newUniqueToken(CLOSE_BRACKET, "]"))
 		return
+		// case '-':
+		// 	lex.advance()
+		// 	lex.push(newUniqueToken(HYPHEN, "-"))
+		// case '/':
+		// 	lex.advance()
+		// 	lex.push(newUniqueToken(SLASH, "/"))
 	}
 
-	panic(fmt.Sprintf("lexeer error: unexped character '%c' at position %d", ch, lex.pos))
+	panic(fmt.Sprintf("lexer error: unexped character '%c' at position %d", ch, lex.pos))
 }
 
 func (lex *lexer) scanString() {
@@ -118,7 +124,7 @@ func (lex *lexer) scanIdentifier() {
 
 	for !lex.atEOF() {
 		ch := lex.peek()
-		if unicode.IsLetter(rune(ch)) || unicode.IsDigit(rune(ch)) || ch == '_' {
+		if unicode.IsLetter(rune(ch)) || unicode.IsDigit(rune(ch)) || ch == '_' || ch == '-' {
 			lex.advance()
 		} else {
 			break
