@@ -72,12 +72,6 @@ func (lex *lexer) scanToken() {
 		lex.advance()
 		lex.push(newUniqueToken(CLOSE_BRACKET, "]"))
 		return
-		// case '-':
-		// 	lex.advance()
-		// 	lex.push(newUniqueToken(HYPHEN, "-"))
-		// case '/':
-		// 	lex.advance()
-		// 	lex.push(newUniqueToken(SLASH, "/"))
 	}
 
 	panic(fmt.Sprintf("lexer error: unexped character '%c' at position %d", ch, lex.pos))
