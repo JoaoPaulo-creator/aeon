@@ -9,7 +9,7 @@ headers [
 
 body [
    id: abc123
-   categoria  [
+   categoria:  [
     id: 123487
     name: cachorro
    ]
