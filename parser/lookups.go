@@ -58,4 +58,5 @@ func createTokenLookups() {
 
 	stmt(lexer.METHOD, parseMethodStmt)
 	stmt(lexer.OPEN_BRACKET, parseBlockStmt)
+	stmt(lexer.HEADERS, parseHeadersStmt)
 }

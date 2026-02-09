@@ -12,6 +12,13 @@ type MethodStmt struct {
 
 func (m MethodStmt) stmt() {}
 
+// headers section
+type HeadersStmt struct {
+	Properties map[string]string
+}
+
+func (m HeadersStmt) stmt() {}
+
 type ExpressionStmt struct {
 	Expression Expr
 }

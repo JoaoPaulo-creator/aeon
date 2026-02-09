@@ -1,1 +1,7 @@
 method: POST
+
+headers: [
+    channel: dev
+    user: random_user
+    coop: 0730
+]

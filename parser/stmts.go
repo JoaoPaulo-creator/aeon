@@ -27,6 +27,38 @@ func parseMethodStmt(p *parser) ast.Stmt {
 	}
 }
 
+func parseHeadersStmt(p *parser) ast.Stmt {
+	p.expect(lexer.HEADERS)
+	if p.currentTokenKind() == lexer.ASSIGN {
+		p.advance()
+
+	}
+
+	var properties = map[string]string{}
+	p.expect(lexer.OPEN_BRACKET)
+
+	for p.hasTokens() && p.currentTokenKind() != lexer.CLOSE_BRACKET {
+		var identName string
+
+		identName = p.expect(lexer.IDENTIFIER).Value
+		p.expectError(lexer.ASSIGN, "expected to find colon following property name")
+
+		switch p.currentTokenKind() {
+		case lexer.IDENTIFIER, lexer.STRING, lexer.NUMBER:
+			properties[identName] = p.advance().Value
+		default:
+			panic("expected header valur after ':'")
+		}
+
+		// properties[identName] = identValue
+	}
+
+	p.expect(lexer.CLOSE_BRACKET)
+	return ast.HeadersStmt{
+		Properties: properties,
+	}
+}
+
 func parseBlockStmt(p *parser) ast.Stmt {
 	p.expect(lexer.OPEN_BRACKET)
 	body := []ast.Stmt{}
