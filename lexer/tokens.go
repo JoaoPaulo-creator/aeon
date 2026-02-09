@@ -15,6 +15,7 @@ const (
 
 	// reserved words
 	METHOD
+	ENDPOINT
 	BODY
 	HEADERS
 
@@ -23,9 +24,10 @@ const (
 )
 
 var reservedWords map[string]TokenKind = map[string]TokenKind{
-	"method":  METHOD,
-	"body":    BODY,
-	"headers": HEADERS,
+	"method":   METHOD,
+	"endpoint": ENDPOINT,
+	"body":     BODY,
+	"headers":  HEADERS,
 }
 
 type Token struct {
@@ -43,6 +45,8 @@ func TokenKindString(kind TokenKind) string {
 		return "close_bracket"
 	case METHOD:
 		return "method"
+	case ENDPOINT:
+		return "enpoint"
 	case BODY:
 		return "body"
 	case HEADERS:

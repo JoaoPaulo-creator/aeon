@@ -1,7 +1,14 @@
 method: POST
+endpoint: "http://localhost:3000/create"
 
 headers: [
     channel: dev
     user: random_user
     coop: 0730
+]
+
+body: [
+    productId: 1293847
+    amount: 300
+    installmentsQuantity: 6
 ]
